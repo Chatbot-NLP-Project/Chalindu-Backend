@@ -72,3 +72,15 @@ def getPackageTypes():
 def getPackages():
     if request.method == 'POST':
         return Telecom.getPackages(mysql)  
+    
+@app.route('/getPackage', methods=["GET", "POST"]) 
+def getPackageInformation():
+    if request.method == 'POST':
+        return Telecom.getPackageInfo(mysql)
+
+@app.route('/activateDataPackage', methods=["GET", "POST"]) 
+def activateDataPackage():
+    if request.method == 'POST':
+        return Telecom.activateDataPackages(mysql)
+
+
