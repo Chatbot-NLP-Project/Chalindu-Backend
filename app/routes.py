@@ -83,4 +83,12 @@ def activateDataPackage():
     if request.method == 'POST':
         return Telecom.activateDataPackages(mysql)
 
+@app.route('/getCurrentBalance', methods=["GET", "POST"]) 
+def getCurrentBalance():
+    if request.method == 'POST':
+        return Telecom.getCurrentBalance(mysql)
 
+@app.route('/sendEmail', methods=["GET", "POST"]) 
+def sendEmail():
+    if request.method == 'POST':
+        return Telecom.sendEmail(mysql)
