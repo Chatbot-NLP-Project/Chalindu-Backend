@@ -11,7 +11,5 @@ app.config['MYSQL_PASSWORD'] = env.get('DB_PASSWORD')
 app.config['MYSQL_DB'] = env.get('DB_NAME')
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
-app.config["JWT_SECRET_KEY"] = env.get('SECRET_KEY') 
-app.config["JWT_COOKIE_SECURE"] = True
-app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+
+
