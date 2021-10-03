@@ -9,6 +9,9 @@ from datetime import (timedelta, timezone)
 from flask_jwt_extended import (JWTManager, jwt_required, get_jwt_identity, create_access_token, set_access_cookies, unset_jwt_cookies, get_jwt)
 from app import app
 from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin,login_manager, current_user
+from flask_mail import Mail, Message 
+from app import mail
+
 
 from app import mysql
 login_manager = LoginManager()
@@ -82,7 +85,15 @@ def register(mysql):
                 cur.execute("INSERT INTO user (email, password, phone_number, first_name, last_name, reg_date, current_balance, sim_type, anytime_data, night_time_data, 4g_data) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(email,hash_password, phone_number, first_name, last_name, reg_date, current_balance, sim_type, 0, 0, 0))
                 mysql.connection.commit()
                 msg = 'Account created successfully'
-                session['email'] = request.get_json()['email']
+
+                e = email
+                subject = "XYRON, Feel the chatbots"
+                msg = "<h2>Dear User,</h2> <p><h2>Congratulations! It is a great pleasure to inform you that you have been successfully registered for the XYRON, login <a href=`https://google.com`>XYRON</a> now.<h2></p><h2>Best regards,\nChalindu, Sandaruwan & Geeth</h2>"
+                print(e)
+                message = Message(subject, sender="xyronchatbot@gmail.com", recipients=[e])
+                message.html = msg
+                mail.send(message)
+                # session['email'] = request.get_json()['email']
                 registered = True
         except Exception as e:
             msg = str(e)
@@ -113,8 +124,8 @@ def login(mysql):
                 session['email'] = user['email']
                 user.pop("password")
                 session['user'] = user
-                session.permanent = True
-                app.permanent_session_lifetime = timedelta(minutes=45)
+                # session.permanent = True
+                # app.permanent_session_lifetime = timedelta(minutes=45)
                 u = User()
                 u.id = email
                 login_user(u)
@@ -129,7 +140,6 @@ def login(mysql):
                 # response = jsonify({"msg": "login successful"})
                 # set_access_cookies(response, access_token)
                 auth = True
-                
             else:
                 msg = "Password is incorrect"
                 access_token = ""
@@ -192,3 +202,97 @@ def get(id):
 #######################################################
 ###################''' Check Login '''####################
 #######################################################
+
+
+def viewprofile(mysql):
+    # user_id = request.get_json()['user_id']   // for postmon use this
+    user_id = request.args.get('user_id', '')  #// for axios use this
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor) #Object that is going to go through our database
+
+    try:
+        cur.execute('SELECT * FROM user WHERE user_id = % s', (user_id ,))
+        user = cur.fetchone()
+        cur.close()
+        if user:
+            print(user)
+            return jsonify(user)
+        else:
+            print('Error here')
+            return "Error no user found"
+    except:
+        print('Error h')
+        return "Error cannot connect to database"
+
+def updateprofile(mysql):
+
+    # for postman
+    user_id = request.get_json()['user_id']
+    first_name = request.get_json()['first_name']
+    last_name = request.get_json()['last_name']
+    phone_number = request.get_json()['phone_number'] 
+    email = request.get_json()['email']
+
+    # for axios
+    # user_id = request.args.get('user_id', '')
+    # first_name = request.args.get('first_name', '')
+    # last_name = request.args.get('last_name', '')
+    # phone_number = request.args.get('phone_number', '')
+    # email = request.args.get('email', '')
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor) #Object that is going to go through our database
+
+    try:
+        print( first_name, last_name, phone_number, email)
+        # update query is not working somehow
+        cur.execute('UPDATE user SET email = % s, first_name = % s, last_name = % s, phone_number = % s WHERE user_id = % s', (email ,first_name ,last_name ,phone_number ,user_id ,))
+        mysql.connection.commit()
+        print('Added successfully')
+        return 'Added successfully'
+        # user = cur.fetchone()
+        # cur.close()
+        # if user:
+        #     return jsonify(user)
+        # else:
+        #     return "Error no user found"
+    except:
+        print('Can\'t connect to database')
+        return "Error cannot connect to database"
+
+#######################################################
+###################''' Update Password '''####################
+#######################################################
+    
+def updatepassword(mysql):
+
+    print('####################################################')
+    print('####################################################')
+    print('####################################################')
+    print('####################################################')
+    id = request.get_json()['user_id']
+    current = request.get_json()['currentPassword'].encode('utf-8')
+    new = request.get_json()['newPassword'].encode('utf-8')
+    confirm = request.get_json()['confirmPassword'].encode('utf-8')
+
+    hashed_current = bcrypt.hashpw(current, bcrypt.gensalt())
+    hashed_new = bcrypt.hashpw(new, bcrypt.gensalt())
+    hashed_confirm = bcrypt.hashpw(confirm, bcrypt.gensalt())
+
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    try:
+        cur.execute("SELECT * FROM user WHERE user_id=%s",(id,))
+        user = cur.fetchone()
+        if (user):
+            print(user["password"].encode('utf-8'))
+            print(hashed_current)
+            if (bcrypt.hashpw(current, user["password"].encode('utf-8')) == user["password"].encode('utf-8')):
+                cur.execute('UPDATE user SET password = %s WHERE user_id = %s', (hashed_new ,id ,))
+                mysql.connection.commit()
+                cur.close()
+                print('password changed')
+                return('Password Updataed Successfully!')
+            else:
+                cur.close()
+                print('incorrect current password')
+                return('Current Password did not match')
+    except:
+        print('database connection error')
+        return('Can\'t connect to database')

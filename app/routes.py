@@ -17,6 +17,7 @@ from flask_login import login_user, login_required, logout_user
 from app.src import User
 from app.src import Chatbot
 from app.src import Telecom
+from app.src import Apis
 #######################################################
 ##################''' User Routes '''##################
 #######################################################
@@ -34,6 +35,7 @@ def login():
         return User.login(mysql) 
     else:
         return ""
+        
 @app.route('/logout')
 @login_required
 def logout():
@@ -45,6 +47,17 @@ def check():
         return User.checkLogin(mysql) 
     else:
         return ""
+
+@app.route('/profile', methods=['GET','POST'])
+def viewprofile():
+    if request.method == 'GET':
+        return User.viewprofile(mysql)
+    if request.method == 'POST':
+        return User.updateprofile(mysql)
+
+@app.route('/password', methods=['POST'])
+def password():
+    return User.updatepassword(mysql)
 # Using an `after_request` callback, we refresh any token that is within 30
 # minutes of expiring. Change the timedeltas to match the needs of your application.
 @app.after_request
@@ -59,8 +72,7 @@ def reply():
     if request.method == 'POST':
         # if request.get_json()['msg'] == "Hi":
         re = Chatbot.chat(request.get_json()['msg'])
-        print(re)
-    return {"reply" : re }
+        return {"reply" : re }
 
 
 @app.route('/getPackageTypes', methods=["GET", "POST"]) 
@@ -92,3 +104,44 @@ def getCurrentBalance():
 def sendEmail():
     if request.method == 'POST':
         return Telecom.sendEmail(mysql)
+
+@app.route('/makeComplaint', methods=["GET", "POST"]) 
+def makeComplaint():
+    if request.method == 'POST':
+        return Telecom.makeComplaint(mysql)
+
+@app.route('/getUser', methods=["GET", "POST"]) 
+def getUser():
+    if request.method == 'POST':
+        return Telecom.getUser(mysql)
+
+@app.route('/getCryptoPrice', methods=["GET", "POST"]) 
+def getCrypto():
+    if request.method == 'POST':
+        return Apis.getCrypto()
+    
+@app.route('/getCryptoPriceLKR', methods=["GET", "POST"]) 
+def getCryptoLKR():
+    if request.method == 'POST':
+        return Apis.getCryptoLKR()
+
+@app.route('/getMoneyValue', methods=["GET", "POST"]) 
+def getMoneyValue():
+    if request.method == 'POST':
+        return Apis.getMoneyValue()
+
+@app.route('/viewActivatedPackages', methods=["GET", "POST"]) 
+def viewActivatedPackages():
+    if request.method == 'POST':
+        return Telecom.viewActivatedPackages(mysql)
+
+@app.route('/viewActivatedPackagesByDate', methods=["GET", "POST"]) 
+def viewActivatedPackagesByDate():
+    if request.method == 'POST':
+        return Telecom.viewActivatedPackagesByDate(mysql)
+
+
+@app.route('/getFeedbacks', methods=["GET", "POST"]) 
+def getFeedbacks():
+    if request.method == 'GET':
+        return Telecom.getFeedbacks(mysql)

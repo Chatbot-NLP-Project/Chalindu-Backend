@@ -27,9 +27,12 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
 app.config["JWT_SECRET_KEY"] = env.get('SECRET_KEY') 
-app.config["JWT_COOKIE_SECURE"] = True
+app.config["JWT_COOKIE_SECURE"] = False
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=12)
+app.config["JWT_COOKIE_CSRF_PROTECT"] = True 
+app.config["JWT_ACCESS_CSRF_HEADER_NAME"] = "X-CSRF-TOKEN-ACCESS"
+app.config["JWT_REFRESH_CSRF_HEADER_NAME"] = "X-CSRF-TOKEN-REFRESH"
 
 mysql = MySQL(app)
 CORS(app)
