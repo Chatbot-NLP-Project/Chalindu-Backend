@@ -113,7 +113,7 @@ def chat(inp):
     # res = ""
     # print(type(results))
     # print(results[0][results_index])
-    if results[results_index] > 0.6:
+    if results[results_index] > 0.7:
         for tg in data["intents"]:
             if tg["tag"] == tag:
                 responses = tg["responses"]

@@ -2,7 +2,11 @@
 
 # testing
 /coverage
-
+#
+#DB_HOST = 'localhost'
+#DB_USER = 'root'
+#DB_PASSWORD = '0719773008'
+#DB_NAME = 'chatbot'
 # production
 /build
 
