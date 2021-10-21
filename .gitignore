@@ -2,6 +2,17 @@
 
 # testing
 /coverage
+#
+#DB_HOST = 'localhost'
+#DB_USER = 'root'
+#DB_PASSWORD = '0719773008'
+#DB_NAME = 'chatbot'
+
+#DB_HOST = 'remotemysql.com'
+#DB_USER = 'Dq0BIKNmDo'
+#DB_PASSWORD = 'BkAuvPMTov'
+#DB_NAME = 'Dq0BIKNmDo'
+
 
 # production
 /build

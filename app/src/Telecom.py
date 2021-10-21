@@ -17,7 +17,7 @@ def getPackageTypes(mysql):
     type = request.get_json()['provider']
     print(type)
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    curl.execute("SELECT DISTINCT package_type FROM datapackage WHERE connection=%s",(type,))
+    curl.execute("SELECT DISTINCT package_type FROM DataPackage WHERE connection=%s",(type,))
     packageTypes = curl.fetchall()
     curl.close()
     for i in range(0, len(packageTypes)):
@@ -29,7 +29,7 @@ def getPackages(mysql):
     packageType = request.get_json()['packageType']
     print(type)
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    curl.execute("SELECT DISTINCT name FROM datapackage WHERE connection=%s and package_type=%s",(provider,packageType))
+    curl.execute("SELECT DISTINCT name FROM DataPackage WHERE connection=%s and package_type=%s",(provider,packageType))
     packages = curl.fetchall()
     curl.close()
     for i in range(0, len(packages)):
@@ -41,7 +41,7 @@ def getPackageInfo(mysql):
     packageType = request.get_json()['packageType']
     packageName = request.get_json()['packageName']
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    curl.execute("SELECT * FROM datapackage WHERE connection=%s and package_type=%s and name=%s",(provider,packageType, packageName))
+    curl.execute("SELECT * FROM DataPackage WHERE connection=%s and package_type=%s and name=%s",(provider,packageType, packageName))
     packageDetails = curl.fetchall()
     curl.close()
 
@@ -92,7 +92,7 @@ def activateDataPackages(mysql):
 def getCurrentBalance(mysql):
     userID = str(request.get_json()["userID"])
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    curl.execute("SELECT * FROM user WHERE user_id=%s",(userID))
+    curl.execute("SELECT * FROM User WHERE user_id=%s",(userID))
     user = curl.fetchone()
     curl.close()
     return jsonify( user = user)
@@ -124,7 +124,7 @@ def makeComplaint(mysql):
     message = Message(subject, sender="xyronchatbot@gmail.com", recipients=["chalindumalshika2014@gmail.com"])
     message.html = "<p>User Email : "+ email + "</p>" +"<p>User Mobile Number : "+ phoneNumber+ "</p>" + "<h1>Complaint details, </h1>" + body
     mail.send(message)
-    curl.execute("INSERT INTO complaint (user_id, isp, subject, message) VALUES (%s,%s,%s,%s)",(userID, provider, subject, body))
+    curl.execute("INSERT INTO Complaint (user_id, isp, subject, message) VALUES (%s,%s,%s,%s)",(userID, provider, subject, body))
     mysql.connection.commit()
     curl.close()
     return jsonify( res = "Complaint is sent to the " + provider + " customer care center")

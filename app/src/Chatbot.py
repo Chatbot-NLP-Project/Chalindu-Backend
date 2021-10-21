@@ -10,7 +10,7 @@ from tensorflow.python.framework import ops
 import random
 import json
 import pickle
-
+# nltk.download('punkt')
 stemmer = LancasterStemmer()
 
 with open("intents.json") as file:
@@ -85,8 +85,9 @@ model.load("model.tflearn")
 
 def bag_of_words(s, words):
     bag = [0 for _ in range(len(words))]
-
+    print("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
     s_words = nltk.word_tokenize(s)
+    print("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
     s_words = [stemmer.stem(word.lower()) for word in s_words]
 
     for se in s_words:
@@ -113,7 +114,7 @@ def chat(inp):
     # res = ""
     # print(type(results))
     # print(results[0][results_index])
-    if results[results_index] > 0.6:
+    if results[results_index] > 0.7:
         for tg in data["intents"]:
             if tg["tag"] == tag:
                 responses = tg["responses"]

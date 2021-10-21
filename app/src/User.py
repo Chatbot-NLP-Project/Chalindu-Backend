@@ -73,7 +73,7 @@ def register(mysql):
         cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor) #Object that is going to go through our database
         reg_date = datetime.datetime.now()
         try:
-            cur.execute('SELECT * FROM user WHERE email = % s', (email, ))
+            cur.execute('SELECT * FROM User WHERE email = % s', (email, ))
             account = cur.fetchone()
             if account:
                 msg = 'Account already exists !'
@@ -82,7 +82,7 @@ def register(mysql):
                 msg = 'Invalid email address !'
                 registered = False
             else:
-                cur.execute("INSERT INTO user (email, password, phone_number, first_name, last_name, reg_date, current_balance, sim_type, anytime_data, night_time_data, 4g_data) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(email,hash_password, phone_number, first_name, last_name, reg_date, current_balance, sim_type, 0, 0, 0))
+                cur.execute("INSERT INTO User (email, password, phone_number, first_name, last_name, reg_date, current_balance, sim_type, anytime_data, night_time_data, 4g_data) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(email,hash_password, phone_number, first_name, last_name, reg_date, current_balance, sim_type, 0, 0, 0))
                 mysql.connection.commit()
                 msg = 'Account created successfully'
 
@@ -115,7 +115,7 @@ def login(mysql):
         password = request.get_json(force=True)['password'].encode('utf-8')
 
         curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        curl.execute("SELECT * FROM user WHERE email=%s",(email,))
+        curl.execute("SELECT * FROM User WHERE email=%s",(email,))
         user = curl.fetchone()
         curl.close()
         if user:
