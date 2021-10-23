@@ -1,1 +1,3 @@
-# Chalindu-Backend
+# Social Inquiry Chatbot
+
+## Telecommunication Chatbot Backend
