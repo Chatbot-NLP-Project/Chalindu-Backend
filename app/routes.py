@@ -18,6 +18,17 @@ from app.src import User
 from app.src import Chatbot
 from app.src import Telecom
 from app.src import Apis
+
+#######################################################
+##################''' Home '''##################
+#######################################################
+@app.route('/', methods=["GET", "POST"]) 
+def home():
+    if request.method == 'GET':
+        return "Hello, You are in the XYRON Chatbot Application"
+    else:
+        return "Hello, You are in the XYRON Chatbot Application"
+
 #######################################################
 ##################''' User Routes '''##################
 #######################################################
@@ -34,7 +45,7 @@ def login():
     if request.method == 'POST':
         return User.login(mysql) 
     else:
-        return ""
+        return jsonify(msg = "Login GET Request")
         
 @app.route('/logout')
 @login_required
