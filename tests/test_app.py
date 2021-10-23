@@ -3,7 +3,7 @@ import tempfile
 
 import pytest
 
-# from app import create_app
+from app import create_app
 # from flaskr.db import init_db
 
 
