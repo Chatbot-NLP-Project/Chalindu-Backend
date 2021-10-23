@@ -10,8 +10,18 @@
          "context_set": ""
         },
         {"tag": "age",
-         "patterns": ["how old", "how old is tim", "what is your age", "how old are you", "age?"],
-         "responses": ["I am 18 years old!", "18 years young!"],
+         "patterns": ["how old", "how old is xyron", "what is your age", "how old are you", "age?"],
+         "responses": ["I am a baby yet", "I am not much older", "I am a little baby", "I can't tell you my age"],
+         "context_set": ""
+        },
+        {"tag": "creator",
+         "patterns": ["Who created you?", "Who is the owner of you"],
+         "responses": ["Chalindu, Sandaruwan & Geeth are my creators", "I am owned by a group in University of Moratuwa", "My owners are studying at UoM"],
+         "context_set": ""
+        },
+        {"tag": "owwner",
+         "patterns": ["Who is Chalindu, Sandaruwan, Geeth?", "What chalindu is doing"],
+         "responses": ["My boss", "You can view more details on FB", "Search on Instagram"],
          "context_set": ""
         },
         {"tag": "name",
@@ -29,9 +39,74 @@
          "responses": ["We are open 7am-4pm Monday-Friday!"],
          "context_set": ""
         },
+        {"tag": "check_ownership",
+         "patterns": ["How to confirm ownership for my mobile connection?", "How to get ownership details for my connection", "I need to check the ownership of my sim", "How to check ownership of sim"],
+         "responses": ["Dial #132# on your phone to view mobile connection ownership details"],
+         "context_set": ""
+        },
+        {"tag": "check_other_connections",
+         "patterns": ["What are the other connections under my identification?", "Is it possible to get other connections under my id?", "Other connections registered to my id number?", "Are there more connection to my id number?"],
+         "responses": ["Dial #132# on your phone to view other connections under your identification"],
+         "context_set": ""
+        },
+        {"tag": "check_balance",
+         "patterns": ["How to check my account balance?", "I want to get my account balance?", "How much balance available on my account?"],
+         "responses": ["Dial following hash codes on your phone. Mobitel - *100#, Dialog - *#456#, Hutch - *344#, Airtel - *555#"],
+         "context_set": ""
+        },
+        {"tag": "sim_lost",
+         "patterns": ["My sim card is lost", "My sim card is damaged", "I need a new sim because by sim card is damaged", "sim lost"],
+         "responses": ["Please visit any of your mobile connection authorized service centers , for a replacement of your SIM."],
+         "context_set": ""
+        },
+        {"tag": "signal_lost",
+         "patterns": ["My data connection is very slow", "I got disconneted every time", "My data speed is at a very low level", "My signal level is low", "My download speed is very low", "My signal is weak"],
+         "responses": ["Call customer care and make a complaint", "Send an email to your Internet service provider"],
+         "context_set": ""
+        },
+        {"tag": "customer_care",
+         "patterns": ["Customer care numbers", "What is the customer care emails", "Mobitel, Dialog, Hutch, Airtel customer care"],
+         "responses": ["Customer care number- Mobitel (071 275 5777), Dialog (1777, 0777 087 917), Hutch (0785785785), Airtel (555, 1755)"],
+         "context_set": ""
+        },
+        {"tag": "love",
+         "patterns": ["I love you xyron", "Can you love me please", "You are in my heart"],
+         "responses": ["I love you too", "You are my favourite person", "I love talking with you", "This conversation is lovely"],
+         "context_set": ""
+        },
+        {"tag": "gf_bf",
+         "patterns": ["I want to be your gf, bf", "I want to marry you", "Do you want to be my gf, bf"],
+         "responses": ["Yes I like, but you prefer try my owners", "Is it okay to have a machine"],
+         "context_set": ""
+        },
+        {"tag": "okay",
+         "patterns": ["okay", "yeah", "fine"],
+         "responses": ["ohhhhh", "hmmmmmmm", "yoooooo"],
+         "context_set": ""
+        },
+        {"tag": "gender",
+         "patterns": ["Are you male or female", "You girl or boy"],
+         "responses": ["I am not a person", "I am an application"],
+         "context_set": ""
+        },
+        {"tag": "who",
+         "patterns": ["Who are you?", "How you work?", "What are you built from?", "From what you have been created"],
+         "responses": ["I was created using Machine learning", "A branch of Artificial intelligence is used to create me"],
+         "context_set": ""
+        },
         {"tag": "Q1",
-         "patterns": ["Data Package", "What are data packages available?", "Internet packages"],
+         "patterns": ["Data Package", "What are data packages available?", "Internet packages", "What are the prepaid packages"],
          "responses": ["package"],
+         "context_set": ""
+        },
+        {"tag": "Q2",
+         "patterns": ["What is my current balance?", "Show my data balance?", "I want to view account balance", "How much data do I have?"],
+         "responses": ["balance"],
+         "context_set": ""
+        },
+        {"tag": "Q3",
+         "patterns": ["I want to make a complaint"],
+         "responses": ["complaint"],
          "context_set": ""
         }
    ]
