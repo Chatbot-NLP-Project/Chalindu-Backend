@@ -10,7 +10,7 @@ from tensorflow.python.framework import ops
 import random
 import json
 import pickle
-# nltk.download('punkt')
+nltk.download('punkt')
 stemmer = LancasterStemmer()
 
 with open("intents.json") as file:
