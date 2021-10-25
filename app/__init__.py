@@ -34,13 +34,6 @@ app.config["JWT_COOKIE_CSRF_PROTECT"] = True
 app.config["JWT_ACCESS_CSRF_HEADER_NAME"] = "X-CSRF-TOKEN-ACCESS"
 app.config["JWT_REFRESH_CSRF_HEADER_NAME"] = "X-CSRF-TOKEN-REFRESH"
 
-app.config['MYSQL_HOST'] = 'https://remotemysql.com/'
-app.config['MYSQL_USER'] = 'Dq0BIKNmDo'
-app.config['MYSQL_PASSWORD'] = 'BkAuvPMTov'
-app.config['MYSQL_DB'] = 'Dq0BIKNmDo'
-app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
-
-
 mysql = MySQL(app)
 
 CORS(app)
