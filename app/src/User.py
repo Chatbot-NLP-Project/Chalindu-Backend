@@ -23,7 +23,7 @@ class User(UserMixin):
 @login_manager.user_loader
 def user_loader(email):
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    curl.execute("SELECT * FROM user WHERE email=%s",(email,))
+    curl.execute("SELECT * FROM User WHERE email=%s",(email,))
     users = curl.fetchone()
     curl.close()
     if not users:
@@ -38,7 +38,7 @@ def user_loader(email):
 def request_loader(request):
     email = request.form.get('email')
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    curl.execute("SELECT * FROM user WHERE email=%s",(email,))
+    curl.execute("SELECT * FROM User WHERE email=%s",(email,))
     users = curl.fetchone()
     curl.close()
     if not users:
@@ -195,7 +195,7 @@ def refresh(response):
 
 def get(id):
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    curl.execute("SELECT * FROM user WHERE user_id=%s",(id,))
+    curl.execute("SELECT * FROM User WHERE user_id=%s",(id,))
     user = curl.fetchone()
     return user
 
@@ -210,7 +210,7 @@ def viewprofile(mysql):
     cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor) #Object that is going to go through our database
 
     try:
-        cur.execute('SELECT * FROM user WHERE user_id = % s', (user_id ,))
+        cur.execute('SELECT * FROM User WHERE user_id = % s', (user_id ,))
         user = cur.fetchone()
         cur.close()
         if user:
@@ -243,7 +243,7 @@ def updateprofile(mysql):
     try:
         print( first_name, last_name, phone_number, email)
         # update query is not working somehow
-        cur.execute('UPDATE user SET email = % s, first_name = % s, last_name = % s, phone_number = % s WHERE user_id = % s', (email ,first_name ,last_name ,phone_number ,user_id ,))
+        cur.execute('UPDATE User SET email = % s, first_name = % s, last_name = % s, phone_number = % s WHERE user_id = % s', (email ,first_name ,last_name ,phone_number ,user_id ,))
         mysql.connection.commit()
         print('Added successfully')
         return 'Added successfully'
@@ -278,7 +278,7 @@ def updatepassword(mysql):
 
     cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     try:
-        cur.execute("SELECT * FROM user WHERE user_id=%s",(id,))
+        cur.execute("SELECT * FROM User WHERE user_id=%s",(id,))
         user = cur.fetchone()
         if (user):
             print(user["password"].encode('utf-8'))

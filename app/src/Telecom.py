@@ -54,16 +54,17 @@ def activateDataPackages(mysql):
     packageName = request.get_json()['packageName']
     userID = str(request.get_json()["userID"])
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    curl.execute("SELECT * FROM datapackage WHERE connection=%s and name=%s",(provider, packageName))
+    curl.execute("SELECT * FROM DataPackage WHERE connection=%s and name=%s",(provider, packageName))
     dataPackage = curl.fetchall()[0]
     fee = dataPackage['fee']
+    print(dataPackage)
     packageID = int(dataPackage['data_package_id'])
     validityPeriod = int(dataPackage['validity_period'])
     activatedDate = datetime.datetime.now()
     anytime_data = dataPackage['anytime_data']
     night_time_data = dataPackage['night_time_data']
     g4_data = dataPackage['4g_data']
-    curl.execute("SELECT * FROM user WHERE user_id=%s",(userID))
+    curl.execute("SELECT * FROM User WHERE user_id=%s",(userID))
     user = curl.fetchone()
     
     balance = user['current_balance']
@@ -75,9 +76,9 @@ def activateDataPackages(mysql):
     # float(balance)>= float(fee)
     if(float(balance)>= float(fee)):
         newBalance = float(balance)-float(fee)
-        curl.execute("UPDATE user SET current_balance=%s, anytime_data=%s, night_time_data=%s, 4g_data=%s WHERE user_id=%s",(newBalance, new_anytime_data, new_night_time_data, new_4g_data, int(userID)))
+        curl.execute("UPDATE User SET current_balance=%s, anytime_data=%s, night_time_data=%s, 4g_data=%s WHERE user_id=%s",(newBalance, new_anytime_data, new_night_time_data, new_4g_data, int(userID)))
         mysql.connection.commit()
-        curl.execute("INSERT INTO activatedpackage (user_id, package_id, activated_date, validity_period) VALUES (%s,%s,%s,%s)",(userID, packageID, activatedDate, validityPeriod))
+        curl.execute("INSERT INTO ActivatedPackage (user_id, package_id, activated_date, expired) VALUES (%s,%s,%s,%s)",(userID, packageID, activatedDate, validityPeriod))
         mysql.connection.commit()
         curl.close()
         return jsonify(
@@ -116,7 +117,7 @@ def makeComplaint(mysql):
     body = request.get_json()['body']
     userID = str(request.get_json()['userID'])
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    curl.execute("SELECT * FROM user WHERE user_id=%s",(userID))
+    curl.execute("SELECT * FROM User WHERE user_id=%s",(userID))
     user = curl.fetchone()
     email = str(user['email'])
     provider = str(user['sim_type'])
@@ -132,14 +133,14 @@ def makeComplaint(mysql):
 def getUser(mysql):
     userID = str(request.get_json()['userID'])
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    curl.execute("SELECT * FROM user WHERE user_id=%s",(userID))
+    curl.execute("SELECT * FROM User WHERE user_id=%s",(userID))
     user = curl.fetchone()
     return jsonify( user = user)
 
 def viewActivatedPackages(mysql):
     userID = str(request.get_json()['userID'])
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    curl.execute("SELECT * FROM activatedpackage NATURAL JOIN datapackage WHERE datapackage.data_package_id = activatedpackage.package_id AND user_id=%s",(userID))
+    curl.execute("SELECT * FROM ActivatedPackage NATURAL JOIN DataPackage WHERE DataPackage.data_package_id = ActivatedPackage.package_id AND user_id=%s",(userID))
     activatedPackages = curl.fetchall()
     Null = 0
     if (not activatedPackages):
@@ -153,7 +154,7 @@ def viewActivatedPackagesByDate(mysql):
     date = date + "%"
     print(date)
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    curl.execute("SELECT * FROM activatedpackage NATURAL JOIN datapackage WHERE datapackage.data_package_id = activatedpackage.package_id AND user_id=%s AND activatedpackage.activated_date LIKE %s" ,(userID, date))
+    curl.execute("SELECT * FROM ActivatedPackage NATURAL JOIN DataPackage WHERE DataPackage.data_package_id = ActivatedPackage.package_id AND user_id=%s AND ActivatedPackage.activated_date LIKE %s" ,(userID, date))
     activatedPackages = curl.fetchall()
     Null = 0
     if (not activatedPackages):
@@ -171,3 +172,12 @@ def getFeedbacks(mysql):
         Null = 1
         feedbacks = []
     return jsonify( feedbacks = feedbacks, Null = Null)
+
+def sendFeedback(mysql):
+    feedback = request.get_json()['feedback']
+    userID = request.get_json()['userID']
+    rating = str(request.get_json()['rating'])
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cur.execute('INSERT INTO Feedback (user_id, chatbot_type, rating, feedback) VALUES (%s,%s,%s,%s)', (userID, "Telecommunication", rating, feedback))
+    mysql.connection.commit()
+    return "successful"

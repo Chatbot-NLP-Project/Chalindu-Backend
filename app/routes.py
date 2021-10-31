@@ -32,6 +32,7 @@ def home():
 #######################################################
 ##################''' User Routes '''##################
 #######################################################
+## User registration
 @app.route('/register', methods=["GET", "POST"]) 
 def register():
     if request.method == 'GET':
@@ -39,19 +40,21 @@ def register():
     else:
         return User.register(mysql)
 
-
+## User login using email and password
 @app.route('/login', methods=["GET", "POST"]) 
 def login():
     if request.method == 'POST':
         return User.login(mysql) 
     else:
         return jsonify(msg = "Login GET Request")
-        
+
+## User logout
 @app.route('/logout')
 @login_required
 def logout():
     return User.logout()
 
+## Check whether user is logged in
 @app.route('/checkLogin', methods=["GET", "POST"]) 
 def check():
     if request.method == 'GET':
@@ -59,6 +62,7 @@ def check():
     else:
         return ""
 
+## View profile details
 @app.route('/profile', methods=['GET','POST'])
 def viewprofile():
     if request.method == 'GET':
@@ -156,3 +160,8 @@ def viewActivatedPackagesByDate():
 def getFeedbacks():
     if request.method == 'GET':
         return Telecom.getFeedbacks(mysql)
+
+
+@app.route("/sendFeedback",methods=["GET","POST"])
+def sendFeedback():
+    return Telecom.sendFeedback(mysql)
