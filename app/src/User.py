@@ -68,7 +68,7 @@ def register(mysql):
         elif(pn == "072" or pn == "078"):
             sim_type = "Hutch"
         print(sim_type)
-        current_balance = float(500.00)
+        current_balance = float(2500.00)
         hash_password = bcrypt.hashpw(password, bcrypt.gensalt())
         cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor) #Object that is going to go through our database
         reg_date = datetime.datetime.now()
@@ -263,10 +263,6 @@ def updateprofile(mysql):
     
 def updatepassword(mysql):
 
-    print('####################################################')
-    print('####################################################')
-    print('####################################################')
-    print('####################################################')
     id = request.get_json()['user_id']
     current = request.get_json()['currentPassword'].encode('utf-8')
     new = request.get_json()['newPassword'].encode('utf-8')
@@ -288,7 +284,7 @@ def updatepassword(mysql):
                 mysql.connection.commit()
                 cur.close()
                 print('password changed')
-                return('Password Updataed Successfully!')
+                return('Password Updated Successfully!')
             else:
                 cur.close()
                 print('incorrect current password')

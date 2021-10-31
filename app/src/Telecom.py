@@ -119,16 +119,29 @@ def makeComplaint(mysql):
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     curl.execute("SELECT * FROM User WHERE user_id=%s",(userID))
     user = curl.fetchone()
+    complainedDate = datetime.datetime.now() # The date of complaint
     email = str(user['email'])
     provider = str(user['sim_type'])
     phoneNumber = str(user['phone_number'])
     message = Message(subject, sender="xyronchatbot@gmail.com", recipients=["chalindumalshika2014@gmail.com"])
     message.html = "<p>User Email : "+ email + "</p>" +"<p>User Mobile Number : "+ phoneNumber+ "</p>" + "<h1>Complaint details, </h1>" + body
     mail.send(message)
-    curl.execute("INSERT INTO Complaint (user_id, isp, subject, message) VALUES (%s,%s,%s,%s)",(userID, provider, subject, body))
+    curl.execute("INSERT INTO Complaint (user_id, isp, subject, message, complain_date) VALUES (%s,%s,%s,%s,%s)",(userID, provider, subject, body, complainedDate))
     mysql.connection.commit()
     curl.close()
     return jsonify( res = "Complaint is sent to the " + provider + " customer care center")
+
+def viewComplaint(mysql):
+    userID = str(request.get_json()['userID'])
+    curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    curl.execute("SELECT * FROM Complaint WHERE user_id=%s",(userID))
+    complaints = curl.fetchall()
+    curl.close()
+    Null = 0
+    if (not complaints):
+        Null = 1
+        complaints = []
+    return jsonify( complaints = complaints, Null = Null)
 
 def getUser(mysql):
     userID = str(request.get_json()['userID'])
@@ -181,3 +194,9 @@ def sendFeedback(mysql):
     cur.execute('INSERT INTO Feedback (user_id, chatbot_type, rating, feedback) VALUES (%s,%s,%s,%s)', (userID, "Telecommunication", rating, feedback))
     mysql.connection.commit()
     return "successful"
+
+def getNumberOfUsers(mysql):
+    curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    curl.execute("SELECT COUNT(*) AS users FROM User")
+    numberOfUsers = int(curl.fetchone()['users']) - 1
+    return jsonify (numberOfUsers = numberOfUsers)

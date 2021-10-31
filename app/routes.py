@@ -125,6 +125,12 @@ def makeComplaint():
     if request.method == 'POST':
         return Telecom.makeComplaint(mysql)
 
+## View Complaints
+@app.route('/viewComplaint', methods=["GET", "POST"]) 
+def viewComplaint():
+    if request.method == 'POST':
+        return Telecom.viewComplaint(mysql)
+
 @app.route('/getUser', methods=["GET", "POST"]) 
 def getUser():
     if request.method == 'POST':
@@ -165,3 +171,7 @@ def getFeedbacks():
 @app.route("/sendFeedback",methods=["GET","POST"])
 def sendFeedback():
     return Telecom.sendFeedback(mysql)
+
+@app.route("/getNumberOfUsers",methods=["GET","POST"])
+def getNumberOfUsers():
+    return Telecom.getNumberOfUsers(mysql)

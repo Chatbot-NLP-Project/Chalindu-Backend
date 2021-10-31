@@ -1,7 +1,7 @@
 {"intents": [
         {"tag": "greeting",
          "patterns": ["Hi", "How are you", "Is anyone there?", "Hello", "Good day", "Whats up"],
-         "responses": ["Hello!", "Good to see you again!", "Hi there, how can I help?"],
+         "responses": ["Hello!", "Good to see you again!", "Hi there, how can I help?", "Ohh, Hi!", "Nice to see you again"],
          "context_set": ""
         },
         {"tag": "goodbye",
@@ -20,8 +20,38 @@
          "context_set": ""
         },
         {"tag": "owwner",
-         "patterns": ["Who is Chalindu, Sandaruwan, Geeth?", "What chalindu is doing"],
-         "responses": ["My boss", "You can view more details on FB", "Search on Instagram"],
+         "patterns": ["Who is Chalindu?", "What chalindu is doing"],
+         "responses": ["He is my boss, he created me", "You can view more details on FB", "Search on Instagram"],
+         "context_set": ""
+        },
+        {"tag": "fbowner",
+         "patterns": ["what is the facebook of chalindu", "fb link of chalindu"],
+         "responses": ["https://web.facebook.com/ChalinduMkodikara/"],
+         "context_set": ""
+        },
+        {"tag": "goodOwner",
+         "patterns": ["Is chalindu a good guy?", "chalindu good person?"],
+         "responses": ["He is the best person, I have ever seen"],
+         "context_set": ""
+        },
+        {"tag": "mora",
+         "patterns": ["Is uom good", "Do you know uom?", "Do you know university of moratuwa?"],
+         "responses": ["Yeah, It is the best university in Sri Lanka"],
+         "context_set": ""
+        },
+        {"tag": "f",
+         "patterns": ["You son of a bitch", "Fuck you", "Fucking shit"],
+         "responses": ["Fuck you....", "Fuck niggahhh", "Get the fuck off", "Fuck off", "Bitch...."],
+         "context_set": ""
+        },
+        {"tag": "contact",
+         "patterns": ["How can I contact Chalindu?", "contact information of chalindu"],
+         "responses": ["He is available on Facebook, Instagram and Linkedin. Just leave him a message"],
+         "context_set": ""
+        },
+        {"tag": "tech",
+         "patterns": ["What technologies used to create you?", "What frameworks used to create you"],
+         "responses": ["Mainly Machine Learning", "TFLearn, Python Flask, ReactJS"],
          "context_set": ""
         },
         {"tag": "name",
@@ -51,7 +81,7 @@
         },
         {"tag": "signal_lost",
          "patterns": ["My data connection is very slow", "I got disconneted every time", "My data speed is at a very low level", "My signal level is low", "My download speed is very low", "My signal is weak"],
-         "responses": ["Call customer care and make a complaint", "Send an email to your Internet service provider"],
+         "responses": ["Call customer care and make a complaint", "Send an email to your Internet service provider", "Make a complaint through me. I can send complaints"],
          "context_set": ""
         },
         {"tag": "customer_care",
@@ -66,7 +96,7 @@
         },
         {"tag": "gf_bf",
          "patterns": ["I want to be your gf, bf", "I want to marry you", "Do you want to be my gf, bf"],
-         "responses": ["Yes I like, but you prefer try my owners", "Is it okay to have a machine"],
+         "responses": ["Yes I like, but you prefer try Chalindu if you are a girl", "Is it okay to have a machine? I like you too"],
          "context_set": ""
         },
         {"tag": "okay",
@@ -121,8 +151,8 @@
          "context_set": ""
         },
         {"tag": "joke",
-         "patterns": ["Tell me a joke", "I want to hear a joke"],
-         "responses": ["Did you hear the one about the mountain goats in the andes? It was 'ba a a a a a d'.", "I never forget a face, but in your case I'll make an exception.", "It is better to be silent and be thought a fool, than to open your mouth and remove all doubt.", ""],
+         "patterns": ["Tell me a joke", "I want to hear a joke", "Joke?"],
+         "responses": ["Laugh, until U have teeth..YOU can not Smile Later!!!", "A boy found Aladdin’s lamp, he asked him to increase all girls brain ten times more. He laughed and said: Multiplication does not apply on zero.", "A mouse was going with his kids. A cat jumped infront of them. Mouse shouted: bhow bhow cat ran away, mouse: that is the advantage of learning foreign language.", "A smile costs less than electricity but gives more light to your face. So always smile and prove that you are the best tubelight.", "Let me tell me about you. A: you are active B: you are best C: you are cute D: you are my dearest E: you are excelant F: you are always first G: you are great. sorry cannot lie till Z.", "All girls are beautiful, after the lights are switched off – Shakespeare. All boys are innocent before the lights are off – shakespeare’s wife.", "All that is smile you make and hello say to wanted just I that out find you when irritating very it find will you.. are you confused?? Now read it backward.", "Can you guess? Why did God create You before Me? Thats because He wanted to create a sample before creating a Master Piece.", "Funny truth.. No one is as ugly as their identity card picture, nor as good looking as their facebook profile picture."],
          "context_set": ""
         }
    ]
