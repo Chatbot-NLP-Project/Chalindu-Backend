@@ -39,11 +39,6 @@
          "responses": ["Yeah, It is the best university in Sri Lanka"],
          "context_set": ""
         },
-        {"tag": "f",
-         "patterns": ["You son of a bitch", "Fuck you", "Fucking shit"],
-         "responses": ["Fuck you....", "Fuck niggahhh", "Get the fuck off", "Fuck off", "Bitch...."],
-         "context_set": ""
-        },
         {"tag": "contact",
          "patterns": ["How can I contact Chalindu?", "contact information of chalindu"],
          "responses": ["He is available on Facebook, Instagram and Linkedin. Just leave him a message"],
@@ -143,11 +138,6 @@
         {"tag": "eat",
          "patterns": ["What can you eat"],
          "responses": ["I consume RAM, and binary digits."],
-         "context_set": ""
-        },
-        {"tag": "bro",
-         "patterns": ["Do you have any brothers"],
-         "responses": ["Yes, my brother is Chalindu", ""],
          "context_set": ""
         },
         {"tag": "joke",
