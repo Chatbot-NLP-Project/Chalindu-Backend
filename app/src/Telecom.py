@@ -11,64 +11,66 @@ import requests
 # def getCurrentBalance():
 #     user_id = 
 
-
- 
+#Get package types
 def getPackageTypes(mysql):
-    type = request.get_json()['provider']
+    type = request.get_json()['provider'] #Get provider
     print(type)
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    curl.execute("SELECT DISTINCT package_type FROM DataPackage WHERE connection=%s",(type,))
+    curl.execute("SELECT DISTINCT package_type FROM DataPackage WHERE connection=%s",(type,)) #Run sql command
     packageTypes = curl.fetchall()
     curl.close()
-    for i in range(0, len(packageTypes)):
+    for i in range(0, len(packageTypes)): 
         packageTypes[i]["id"] = str(i)
-    return jsonify(packageTypes = packageTypes)
+    return jsonify(packageTypes = packageTypes) #Return result as a json file
 
+#Get packages
 def getPackages(mysql):
-    provider = request.get_json()['provider']
-    packageType = request.get_json()['packageType']
+    provider = request.get_json()['provider'] #Provider name
+    packageType = request.get_json()['packageType'] #Package Type
     print(type)
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    curl.execute("SELECT DISTINCT name FROM DataPackage WHERE connection=%s and package_type=%s",(provider,packageType))
-    packages = curl.fetchall()
+    curl.execute("SELECT DISTINCT name FROM DataPackage WHERE connection=%s and package_type=%s",(provider,packageType)) #SQL Command
+    packages = curl.fetchall() #Fetch all the result
     curl.close()
     for i in range(0, len(packages)):
         packages[i]["id"] = str(i)
-    return jsonify(packages = packages)
+    return jsonify(packages = packages) #Return result as a json file
 
+#Get packages Info
 def getPackageInfo(mysql):
-    provider = request.get_json()['provider']
-    packageType = request.get_json()['packageType']
-    packageName = request.get_json()['packageName']
+    provider = request.get_json()['provider'] #Provider name
+    packageType = request.get_json()['packageType'] #Provider type
+    packageName = request.get_json()['packageName'] #Package name
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     curl.execute("SELECT * FROM DataPackage WHERE connection=%s and package_type=%s and name=%s",(provider,packageType, packageName))
-    packageDetails = curl.fetchall()
+    packageDetails = curl.fetchall() #Fetch all results
     curl.close()
 
     return jsonify(
         packageDetails = packageDetails
     )
 
+#Get activated data packages
 def activateDataPackages(mysql):
-    provider = request.get_json()['provider']
-    packageName = request.get_json()['packageName']
-    userID = str(request.get_json()["userID"])
+    provider = request.get_json()['provider'] #Provider name
+    packageName = request.get_json()['packageName'] #Package name
+    userID = str(request.get_json()["userID"]) #User ID
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     curl.execute("SELECT * FROM DataPackage WHERE connection=%s and name=%s",(provider, packageName))
-    dataPackage = curl.fetchall()[0]
-    fee = dataPackage['fee']
+    dataPackage = curl.fetchall()[0] #Fetch all results
+    fee = dataPackage['fee'] #Get fee of the data package
     print(dataPackage)
     packageID = int(dataPackage['data_package_id'])
     validityPeriod = int(dataPackage['validity_period'])
-    activatedDate = datetime.datetime.now()
+    activatedDate = datetime.datetime.now() #Get activated date using datetime
     anytime_data = dataPackage['anytime_data']
     night_time_data = dataPackage['night_time_data']
     g4_data = dataPackage['4g_data']
     curl.execute("SELECT * FROM User WHERE user_id=%s",(userID))
-    user = curl.fetchone()
+    user = curl.fetchone() #Fetch one result
     
-    balance = user['current_balance']
-    new_anytime_data = float(anytime_data) + float(user['anytime_data'])
+    balance = user['current_balance'] #Get current balance of user
+    new_anytime_data = float(anytime_data) + float(user['anytime_data']) 
     new_night_time_data = float(night_time_data) + float(user['night_time_data'])
     new_4g_data = float(g4_data) + float(user['4g_data'])
     # print("user[anytime_data]")
@@ -86,10 +88,10 @@ def activateDataPackages(mysql):
         )
     else:
         return jsonify(
-            res = "Your balance is not enough to activate the package"
+            res = "Your balance is not enough to activate the package" #Fetch all results
         )
 
-
+#Get current balance
 def getCurrentBalance(mysql):
     userID = str(request.get_json()["userID"])
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -98,7 +100,7 @@ def getCurrentBalance(mysql):
     curl.close()
     return jsonify( user = user)
 
-
+#Send email
 def sendEmail(mysql):
     email = request.get_json()["email"]
     subject = request.get_json()["subject"]
@@ -112,6 +114,7 @@ def sendEmail(mysql):
 
     return jsonify( res = "Email sent")
 
+#Make complaint
 def makeComplaint(mysql):
     subject = request.get_json()["subject"]
     body = request.get_json()['body']
@@ -131,6 +134,7 @@ def makeComplaint(mysql):
     curl.close()
     return jsonify( res = "Complaint is sent to the " + provider + " customer care center")
 
+#View complaint
 def viewComplaint(mysql):
     userID = str(request.get_json()['userID'])
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -143,6 +147,7 @@ def viewComplaint(mysql):
         complaints = []
     return jsonify( complaints = complaints, Null = Null)
 
+#Get User
 def getUser(mysql):
     userID = str(request.get_json()['userID'])
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -150,6 +155,7 @@ def getUser(mysql):
     user = curl.fetchone()
     return jsonify( user = user)
 
+#View activated packages
 def viewActivatedPackages(mysql):
     userID = str(request.get_json()['userID'])
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -161,6 +167,7 @@ def viewActivatedPackages(mysql):
     print(activatedPackages)
     return jsonify( activatedPackages = activatedPackages, Null = Null)
 
+#View activated packages by date
 def viewActivatedPackagesByDate(mysql):
     userID = str(request.get_json()['userID'])
     date = str(request.get_json()['date'])
@@ -175,7 +182,7 @@ def viewActivatedPackagesByDate(mysql):
     # print(activatedPackages)
     return jsonify( activatedPackages = activatedPackages, Null = Null)
 
-
+#Get feedbacks
 def getFeedbacks(mysql):
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     curl.execute("SELECT * FROM Feedback ")
@@ -186,6 +193,7 @@ def getFeedbacks(mysql):
         feedbacks = []
     return jsonify( feedbacks = feedbacks, Null = Null)
 
+#Send feedbacks
 def sendFeedback(mysql):
     feedback = request.get_json()['feedback']
     userID = request.get_json()['userID']
@@ -195,6 +203,7 @@ def sendFeedback(mysql):
     mysql.connection.commit()
     return "successful"
 
+#get number of users
 def getNumberOfUsers(mysql):
     curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     curl.execute("SELECT COUNT(*) AS users FROM User")
